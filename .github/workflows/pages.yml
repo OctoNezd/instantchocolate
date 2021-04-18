@@ -20,7 +20,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          VUE_APP_API_URL: https://instantchocolate.octonezd.me/api
+          VUE_APP_API_URL: https://api-instantchocolate.octonezd.me/
           CANONICAL_URL: https://instantchocolate.octonezd.me
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
