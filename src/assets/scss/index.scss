@@ -1,19 +1,70 @@
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 @import "~@creativebulma/bulma-divider";
-// $scheme-main: $grey-dark;
-// $scheme-main-ter: $black-ter;
-// $scheme-main-bis: $black-bis;
-
-// $card-footer-border-top: 1px solid $grey;
-
-// $background: $scheme-main;
-// $text: $white;
-// $title-color: $text;
 :root {
-  --shadowColor: #{$grey-lighter};
+  --background: #{$background};
+  --text: #{$text};
+  --textbarely: #{$text};
+  --bglight: #{$background};
+  --border-color: #{$grey-lighter};
+  --link: #{$link};
+  --hover: #{$link-hover};
+  --darkbg: #{$dark};
+  --darkbgtext: #{$light};
 }
-
+a:not(.button):not(.has-text-danger) {
+  color: var(--link) !important;
+}
+a:hover:not(.button):not(.has-text-danger) {
+  color: var(--hover) !important;
+}
+.button.is-dark {
+  background-color: var(--darkbg) !important;
+  color: var(--darkbgtext) !important;
+}
+.label,
+.title:not(.hero *),
+.subtitle:not(.hero *),
+.icon.is-clickable {
+  color: var(--text) !important;
+}
+.input {
+  background-color: var(--bglight) !important;
+  color: var(--text) !important ;
+}
+.input,
+.card-footer,
+.card-footer-item {
+  border-color: var(--border-color) !important;
+}
+.input::placeholder {
+  color: var(--textbarely) !important;
+}
+.card {
+  background-color: var(--bglight) !important;
+  color: var(--text) !important;
+}
+.background,
+.modal-card {
+  background-color: var(--background) !important;
+  color: var(--text) !important;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #{$dark};
+    --text: #{$background};
+    --bglight: #{$grey-dark};
+    --border-color: #{$grey-darker};
+    --textbarely: #{$grey-light};
+    --link: #{$info-light};
+    --hover: #{$grey-lighter};
+    --darkbg: #{$light};
+    --darkbgtext: #{$dark};
+  }
+}
+body {
+  background-color: var(--background);
+}
 .spacer {
   width: 1em;
 }

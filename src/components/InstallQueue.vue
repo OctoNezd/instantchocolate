@@ -2,6 +2,7 @@
   <div
     id="installqueue"
     :class="{ pinned: pinned }"
+    class="background"
     v-show="installQueue.length > 0"
   >
     <div class="container is-fluid">
@@ -67,7 +68,6 @@ export default {
   left: 0;
   overflow: hidden;
   box-shadow: 0px -5px 30px 0px var(--shadowColor);
-  background-color: white;
 }
 .iq-container {
   padding-top: 1em !important;
