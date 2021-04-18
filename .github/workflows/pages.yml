@@ -14,10 +14,9 @@ jobs:
           access_token: ${{ github.token }}
       - uses: actions/checkout@master
       - name: Install Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: "15"
-          registry-url: "https://registry.npmjs.org"
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+          sudo apt-get install -y nodejs
       - run: npm ci
       - run: npm run build
         env:
