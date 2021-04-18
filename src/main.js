@@ -10,6 +10,7 @@ Vue.use(VueAxios, axiosInstance);
 
 Vue.use(Buefy);
 
+Vue.prototype.$gitcommit = process.env.VUE_APP_GIT_HASH;
 Vue.prototype.$installQueue = [];
 
 Vue.config.productionTip = false;

@@ -74,7 +74,8 @@
       <div class="content has-text-centered">
         <p>
           <b>InstantChocolate</b> by OctoNezd<br />
-          This site is not made or endorsed by Chocolatey developers
+          This site is not made or endorsed by Chocolatey developers.<br />
+          Commit: {{ $gitcommit }}
         </p>
       </div>
     </footer>
