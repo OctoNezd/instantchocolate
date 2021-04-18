@@ -3,6 +3,10 @@ import App from "./App.vue";
 import Buefy from "buefy";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import PerfectScrollbar from "vue2-perfect-scrollbar";
+import "vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css";
+
+Vue.use(PerfectScrollbar);
 
 console.log(process.env.VUE_APP_API_URL);
 var axiosInstance = axios.create({ baseURL: process.env.VUE_APP_API_URL });

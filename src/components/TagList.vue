@@ -1,5 +1,5 @@
 <template>
-  <div class="scrollable-x" id="tags">
+  <perfect-scrollbar id="tags" class="scrollable-x">
     <div
       v-for="tag of tags"
       :key="Array.isArray(tag) ? tag[0] : tag"
@@ -17,7 +17,7 @@
         <b-tag type="is-info" size="is-large">{{ tag[1] }}</b-tag>
       </b-taglist>
     </div>
-  </div>
+  </perfect-scrollbar>
 </template>
 <script>
 export default {
@@ -26,11 +26,13 @@ export default {
 };
 </script>
 <style scoped>
+#tags {
+}
 #tags .tags {
   flex-wrap: nowrap;
   margin-right: 1rem;
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   cursor: pointer;
 }
 </style>

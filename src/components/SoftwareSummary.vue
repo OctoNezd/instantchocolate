@@ -75,7 +75,6 @@ export default {
       })[0];
     },
     swap: function() {
-      console.log("swapping");
       this.$installQueue[
         this.$installQueue.indexOf(this.software.packageName)
       ] = this.replacement.packageName;

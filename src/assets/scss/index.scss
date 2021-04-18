@@ -88,6 +88,10 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
   background-color: var(--text) !important;
   color: var(--background) !important;
 }
+.ps__rail-x:hover {
+  background-color: var(--border-color) !important;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #{$dark};

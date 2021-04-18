@@ -144,9 +144,8 @@ export default {
       }, {});
 
       this.tagsAll = Object.entries(tags).sort(([, a], [, b]) => b - a);
-      this.tags = this.tagsAll.slice(0, 10);
+      this.tags = this.tagsAll.slice(0, 100);
       this.tags.unshift(["All", this.software.length]);
-      console.log(this.tags);
     },
     showModal(packageName) {
       this.modalPkg = packageName;
@@ -195,20 +194,13 @@ export default {
           (software) => software.tags.indexOf(this.currentTagFilter) !== -1
         );
       }
-      console.log(
-        this.tags.find((item) => item[0] === this.currentTagFilter),
-        this.currentTagFilter
-      );
       if (!this.tags.find((item) => item[0] === this.currentTagFilter)) {
-        console.log("current tag not in tags");
         this.tags.splice(
           1,
           0,
           this.tagsAll.find((item) => item[0] === this.currentTagFilter)
         );
       }
-      console.log(this.softwareDisplay);
-      console.log(Object.filter);
     },
   },
 };
