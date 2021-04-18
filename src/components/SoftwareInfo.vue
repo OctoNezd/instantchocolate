@@ -4,7 +4,7 @@
       <SoftwareSummary :software="software" />
       <vue-markdown :source="software.description" />
     </div>
-    <footer class="card-footer">
+    <footer class="card-footer column-mobile">
       <div href="#" class="card-footer-item">
         <a :href="software.licenseUrl">
           <b-icon icon="license" size="is-small" />

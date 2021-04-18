@@ -1,73 +1,77 @@
 <template>
   <div class="modal-card" id="installguide" style="width: auto">
-    <InstallQueue
-      :softwarelist="software"
-      @toggleInstallInstructions="$emit('toggleInstallInstructions')"
-      buttonText="Hide install instructions"
-    />
-    <div class="container is-fluid">
-      <div class="is-flex" id="result">
-        <div id="packageslist">
-          <p class="title is-4">Packages that will be installed:</p>
-          <SoftwareSummary
-            :software="findPackage(packageName)"
-            v-for="packageName in installQueue"
-            :key="packageName"
-            nodescription
-            showToggleButton
-          />
-        </div>
-        <div id="instructions">
-          <p class="title is-4">Install instructions</p>
-          <p class="subtitle is-size-4">Install manually</p>
-          <div
-            v-for="(installStep, index) in installSteps"
-            :key="installStep.text"
-            class="is-flex instructionstep"
-          >
-            <b-icon
-              :icon="installStep.icon"
-              custom-size="is-very-very-big"
-              size="is-very-very-big"
-              :type="installStep.iconType"
+    <div class="overflow-on">
+      <InstallQueue
+        :softwarelist="software"
+        @toggleInstallInstructions="$emit('toggleInstallInstructions')"
+        buttonText="Hide install instructions"
+      />
+      <div class="container is-fluid">
+        <div class="is-flex column-mobile" id="result">
+          <div id="packageslist">
+            <p class="title is-4">Packages that will be installed:</p>
+            <SoftwareSummary
+              :software="findPackage(packageName)"
+              v-for="packageName in installQueue"
+              :key="packageName"
+              nodescription
+              showToggleButton
             />
-            <div>
-              <p class="title is-3">{{ index + 1 }}. {{ installStep.title }}</p>
-              <p class="subtitle nomargin">{{ installStep.text }}</p>
-              <span class="subtitle" v-if="installStep.protip">
-                <span class="has-text-warning-dark">
-                  <b-icon icon="lightbulb-on" />PROTIP:
-                </span>
-                {{ installStep.protip }}
-              </span>
-              <b-input
-                v-if="installStep.command"
-                icon-right="clipboard"
-                icon-right-clickable
-                @icon-right-click="copyToClipboard"
-                :value="installStep.command"
-                readonly
+          </div>
+          <div id="instructions">
+            <p class="title is-4">Install instructions</p>
+            <p class="subtitle is-size-4">Install manually</p>
+            <div
+              v-for="(installStep, index) in installSteps"
+              :key="installStep.text"
+              class="is-flex instructionstep"
+            >
+              <b-icon
+                :icon="installStep.icon"
+                custom-size="is-very-very-big"
+                size="is-very-very-big"
+                :type="installStep.iconType"
               />
+              <div>
+                <p class="title is-3">
+                  {{ index + 1 }}. {{ installStep.title }}
+                </p>
+                <p class="subtitle nomargin">{{ installStep.text }}</p>
+                <span class="subtitle" v-if="installStep.protip">
+                  <span class="has-text-warning-dark">
+                    <b-icon icon="lightbulb-on" />PROTIP:
+                  </span>
+                  {{ installStep.protip }}
+                </span>
+                <b-input
+                  v-if="installStep.command"
+                  icon-right="clipboard"
+                  icon-right-clickable
+                  @icon-right-click="copyToClipboard"
+                  :value="installStep.command"
+                  readonly
+                />
+              </div>
             </div>
+            <div>
+              <div class="divider">OR</div>
+            </div>
+            <p class="is-size-4">Install using InstantChocolate script</p>
+            <span class="has-text-warning-dark">
+              <b-icon icon="lightbulb-on" />PROTIP:
+            </span>
+            ALWAYS CHECK THE SCRIPTS YOU RUN I CANT STRESS THIS ENOUGH
+            <br />
+            <a
+              :href="installScriptUrl"
+              download="instantChocolate.ps1"
+              class="button is-warning"
+              id="dlps1"
+              >Download PowerShell script</a
+            >
+            <br />
+            Right-click on downloaded file and click "Run In PowerShell"
           </div>
-          <div>
-            <div class="divider">OR</div>
-          </div>
-          <p class="is-size-4">Install using InstantChocolate script</p>
-          <span class="has-text-warning-dark">
-            <b-icon icon="lightbulb-on" />PROTIP:
-          </span>
-          ALWAYS CHECK THE SCRIPTS YOU RUN I CANT STRESS THIS ENOUGH
-          <br />
-          <a
-            :href="installScriptUrl"
-            download="instantChocolate.ps1"
-            class="button is-warning"
-            id="dlps1"
-            >Download PowerShell script</a
-          >
-          <br />
-          Right-click on downloaded file and click "Run In PowerShell"
         </div>
       </div>
     </div>
@@ -155,14 +159,11 @@ export default {
 #instructions {
   flex-grow: 1;
 }
-#instructions {
-  margin-left: 2rem;
-}
+
 .is-very-very-big {
   font-size: 128px;
   min-width: 128px;
   min-height: 128px;
-  margin-right: 0.5rem;
 }
 .nomargin {
   margin-bottom: 0 !important;

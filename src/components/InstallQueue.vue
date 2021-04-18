@@ -6,7 +6,7 @@
     v-show="installQueue.length > 0"
   >
     <div class="container is-fluid">
-      <div class="iq-container is-flex is-align-items-center">
+      <div class="iq-container is-flex is-align-items-center column-mobile">
         <b-icon icon="coffee" type="is-chocolate" size="is-large" />
         <p class="spacer" />
         <div class="text">

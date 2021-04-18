@@ -1,6 +1,35 @@
 // Import Bulma's core
 @import "~bulma/sass/utilities/_all";
 @import "~@creativebulma/bulma-divider";
+@media (min-width: $tablet) {
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-items: stretch;
+    column-gap: 10px;
+    row-gap: 10px;
+  }
+  #instructions {
+    margin-left: 2rem;
+  }
+  .is-very-very-big {
+    margin-right: 0.5rem;
+  }
+}
+@media (max-width: $tablet) {
+  .column-mobile,
+  .instructionstep {
+    align-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+  .instructionstep {
+    align-items: center;
+  }
+}
+.overflow-on {
+  overflow-y: scroll;
+}
 :root {
   --background: #{$background};
   --text: #{$text};
