@@ -13,17 +13,10 @@
         "
       >
         <template slot-scope="props">
-          <div class="media">
+          <div class="media is-align-items-stretch">
             <div class="media-left">
               <figure class="image is-48x48">
-                <img
-                  class="software-icon"
-                  :src="props.option.item.icon"
-                  @error="
-                    $event.target.src = require('../assets/placeholder.png')
-                  "
-                  alt="Software icon"
-                />
+                <IconDisplay :src="props.option.item.icon" />
               </figure>
             </div>
             <div class="media-content">
@@ -48,12 +41,13 @@
 </template>
 <script>
 // import SoftwareSummary from "./SoftwareSummary";
+import IconDisplay from "./IconDisplay.vue";
 import Fuse from "fuse.js";
 
 export default {
   name: "SoftwareSearch",
   components: {
-    //   SoftwareSummary
+    IconDisplay,
   },
   props: ["software"],
   data: function() {
@@ -106,5 +100,8 @@ export default {
 <style scoped>
 .autocomplete {
   margin-bottom: 10px;
+}
+.media-left figure {
+  min-height: 100%;
 }
 </style>

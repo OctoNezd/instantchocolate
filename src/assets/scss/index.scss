@@ -60,7 +60,8 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
 .icon.is-clickable {
   color: var(--text) !important;
 }
-.input {
+.input,
+.dropdown-item:hover {
   background-color: var(--bglight) !important;
   color: var(--text) !important ;
 }
@@ -78,7 +79,8 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
 }
 .background,
 .modal-card,
-.footer {
+.footer,
+.dropdown-content {
   background-color: var(--background) !important;
   color: var(--text) !important;
 }

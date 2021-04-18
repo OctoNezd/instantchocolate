@@ -4,13 +4,7 @@
       <div class="media-left">
         <figure class="image is-48x48">
           <b-skeleton v-if="skeleton" width="48" height="48" />
-          <img
-            class="software-icon"
-            v-else
-            :src="software.icon"
-            @error="$event.target.src = require('../assets/placeholder.png')"
-            alt="Software icon"
-          />
+          <IconDisplay v-else :src="software.icon" />
         </figure>
       </div>
       <div class="media-content">
@@ -41,9 +35,10 @@
 </template>
 <script>
 import SoftwareAddButton from "./SoftwareAddButton.vue";
+import IconDisplay from "./IconDisplay.vue";
 export default {
   name: "SoftwareSummary",
-  components: { SoftwareAddButton },
+  components: { SoftwareAddButton, IconDisplay },
   props: {
     software: Object,
     skeleton: Boolean,
