@@ -41,11 +41,14 @@
   --darkbg: #{$dark};
   --darkbgtext: #{$light};
 }
-a:not(.button):not(.has-text-danger) {
+a:not(.button):not(.has-text-danger, .pagination-link) {
   color: var(--link) !important;
 }
-a:hover:not(.button):not(.has-text-danger) {
+a:hover:not(.button):not(.has-text-danger, .pagination-link) {
   color: var(--hover) !important;
+}
+.pagination-link:not(.is-current) {
+  color: var(--text) !important;
 }
 .button.is-dark {
   background-color: var(--darkbg) !important;
@@ -74,10 +77,12 @@ a:hover:not(.button):not(.has-text-danger) {
   color: var(--text) !important;
 }
 .background,
-.modal-card {
+.modal-card,
+.footer {
   background-color: var(--background) !important;
   color: var(--text) !important;
 }
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #{$dark};

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="has-text-white">
+  <div id="app" class="">
     <b-modal :active="!loaded" :can-cancel="false">
       <Loader />
     </b-modal>
