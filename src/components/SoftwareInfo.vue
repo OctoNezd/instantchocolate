@@ -3,6 +3,12 @@
     <div class="card-content">
       <SoftwareSummary :software="software" />
       <vue-markdown :source="software.description" />
+      <TagList
+        :tags="software.tags"
+        single
+        hideSelected
+        @tagSelected="(tag) => $emit('tagSelected', tag)"
+      />
     </div>
     <footer class="card-footer column-mobile">
       <div href="#" class="card-footer-item">
@@ -36,9 +42,10 @@
 import VueMarkdown from "vue-markdown-render";
 import SoftwareSummary from "./SoftwareSummary.vue";
 import SoftwareAddButton from "./SoftwareAddButton.vue";
+import TagList from "./TagList.vue";
 export default {
   name: "SoftwareModal",
-  components: { SoftwareSummary, SoftwareAddButton, VueMarkdown },
+  components: { SoftwareSummary, SoftwareAddButton, VueMarkdown, TagList },
   props: ["software"],
 };
 </script>

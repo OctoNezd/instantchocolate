@@ -4,7 +4,11 @@
       <Loader />
     </b-modal>
     <b-modal v-model="modalShow">
-      <SoftwareInfo :software="modalSoftware" @toggled="modalShow = false" />
+      <SoftwareInfo
+        :software="modalSoftware"
+        @toggled="modalShow = false"
+        @tagSelected="(tag) => (currentTagFilter = tag)"
+      />
     </b-modal>
     <section class="hero has-text-centered is-link">
       <div class="hero-body">
@@ -21,24 +25,11 @@
     <section class="section">
       <div class="container">
         <div v-if="software.length > 0">
-          <div class="scrollable-x" id="tags">
-            <div
-              v-for="tag of tags"
-              :key="tag[0]"
-              @click="currentTagFilter = tag[0]"
-            >
-              <b-taglist attached>
-                <b-tag
-                  :type="
-                    currentTagFilter === tag[0] ? 'is-chocolate' : 'is-dark'
-                  "
-                  size="is-large"
-                  >{{ tag[0] }}</b-tag
-                >
-                <b-tag type="is-info" size="is-large">{{ tag[1] }}</b-tag>
-              </b-taglist>
-            </div>
-          </div>
+          <TagList
+            :tags="tags"
+            :currentTagFilter="currentTagFilter"
+            @tagSelected="(tag) => (currentTagFilter = tag)"
+          />
           <SoftwareSearch :software="software" @showModal="showModal" />
           <div class="grid">
             <SoftwareItem
@@ -108,6 +99,7 @@ import SoftwareInfo from "./components/SoftwareInfo.vue";
 import InstallQueue from "./components/InstallQueue.vue";
 import SoftwareSearch from "./components/SoftwareSearch.vue";
 import InstallInstructions from "./components/InstallInstructions.vue";
+import TagList from "./components/TagList.vue";
 import { EventBus } from "./eventBus.js";
 import "./assets/scss/index.scss";
 export default {
@@ -120,6 +112,7 @@ export default {
     InstallQueue,
     SoftwareSearch,
     InstallInstructions,
+    TagList,
   },
   data: function() {
     return {
@@ -208,11 +201,4 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-#tags .tags {
-  flex-wrap: nowrap;
-  margin-right: 1rem;
-  margin-bottom: 0.5rem;
-  cursor: pointer;
-}
-</style>
+<style lang="scss"></style>
