@@ -12,6 +12,7 @@
             <p class="title is-4">Packages that will be installed:</p>
             <SoftwareSummary
               :software="findPackage(packageName)"
+              :softwareCatalog="software"
               v-for="packageName in installQueue"
               :key="packageName"
               nodescription
