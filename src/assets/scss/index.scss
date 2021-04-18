@@ -1,0 +1,25 @@
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all";
+@import "~@creativebulma/bulma-divider";
+// $scheme-main: $grey-dark;
+// $scheme-main-ter: $black-ter;
+// $scheme-main-bis: $black-bis;
+
+// $card-footer-border-top: 1px solid $grey;
+
+// $background: $scheme-main;
+// $text: $white;
+// $title-color: $text;
+:root {
+  --shadowColor: #{$grey-lighter};
+}
+
+.spacer {
+  width: 1em;
+}
+.has-text-chocolate {
+  color: #a85418 !important;
+}
+// Import Bulma and Buefy styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";

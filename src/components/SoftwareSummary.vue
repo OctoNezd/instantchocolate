@@ -1,0 +1,71 @@
+<template>
+  <div class="softwaresummary">
+    <div class="media">
+      <div class="media-left">
+        <figure class="image is-48x48">
+          <b-skeleton v-if="skeleton" width="48" height="48" />
+          <img
+            class="software-icon"
+            v-else
+            :src="software.icon"
+            @error="$event.target.src = require('../assets/placeholder.png')"
+            alt="Software icon"
+          />
+        </figure>
+      </div>
+      <div class="media-content">
+        <b-skeleton size="is-large" v-if="skeleton"></b-skeleton>
+        <p class="title is-4" v-else-if="software.displayname != ''">
+          {{ software.displayName }}
+        </p>
+        <b-skeleton v-if="skeleton"></b-skeleton>
+        <p
+          v-else
+          :class="software.displayName !== '' ? 'subtitle is-6' : 'title is-4'"
+        >
+          {{ software.packageName }} (version: {{ software.version }})
+        </p>
+      </div>
+    </div>
+    <SoftwareAddButton
+      :package="software.packageName"
+      v-if="showToggleButton"
+    />
+    <div class="content" v-if="!nodescription">
+      <b-skeleton v-if="skeleton" :count="3"></b-skeleton>
+      <p v-else-if="software.summary !== ''">
+        {{ software.summary }}
+      </p>
+    </div>
+  </div>
+</template>
+<script>
+import SoftwareAddButton from "./SoftwareAddButton.vue";
+export default {
+  name: "SoftwareSummary",
+  components: { SoftwareAddButton },
+  props: {
+    software: Object,
+    skeleton: Boolean,
+    nodescription: Boolean,
+    showToggleButton: Boolean,
+  },
+};
+</script>
+<style>
+.software-icon {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+}
+.softwaresummary .media {
+  align-items: stretch;
+}
+.softwaresummary .image {
+  min-height: 100%;
+}
+.softwaresummary {
+  padding-bottom: 1em;
+}
+</style>

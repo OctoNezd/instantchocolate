@@ -1,15 +1,56 @@
 <!DOCTYPE html>
 <html lang="">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.svg" />
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta
+      name="description"
+      content="Script generator to bulk install software from chocolatey. Update and install software without bloatware automatically!"
+    />
+    <meta
+      name="keywords"
+      content="chocolatey,software,software install,app install,install"
+    />
+    <meta
+      property="og:title"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
+    <meta
+      property="og:site_name"
+      content="<%= htmlWebpackPlugin.options.title %>"
+    />
+    <meta
+      property="og:url"
+      content="<%=
+    htmlWebpackPlugin.options.canonicalurl %>"
+    />
+    <link
+      rel="canonical"
+      href="<%=
+    htmlWebpackPlugin.options.canonicalurl %>"
+    />
+    <meta
+      property="og:description"
+      content="Script generator to bulk install software from Chocolatey. Update and install software without bloatware automatically!"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="og_image.png" />
+    <!-- i am stupid and cant understand how to load it properly in main.js -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@5.8.55/css/materialdesignicons.min.css"
+    />
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
+        properly without JavaScript enabled. Please enable it to
+        continue.</strong
+      >
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
