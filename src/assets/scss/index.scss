@@ -84,7 +84,10 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
   background-color: var(--background) !important;
   color: var(--text) !important;
 }
-
+.is-dark {
+  background-color: var(--text) !important;
+  color: var(--background) !important;
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #{$dark};
@@ -101,12 +104,26 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
 body {
   background-color: var(--background);
 }
+
+.scrollable-x {
+  overflow-y: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: row;
+}
+
 .spacer {
   width: 1em;
 }
-.has-text-chocolate {
-  color: #a85418 !important;
+$chocolate: #a85418;
+.is-chocolate {
+  background-color: $chocolate !important;
+  color: white !important;
 }
+.has-text-chocolate {
+  color: $chocolate !important;
+}
+
 // Import Bulma and Buefy styles
 @import "~bulma";
 @import "~buefy/src/scss/buefy";

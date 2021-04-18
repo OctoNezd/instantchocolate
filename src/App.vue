@@ -21,10 +21,28 @@
     <section class="section">
       <div class="container">
         <div v-if="software.length > 0">
+          <div class="scrollable-x" id="tags">
+            <div
+              v-for="tag of tags"
+              :key="tag[0]"
+              @click="currentTagFilter = tag[0]"
+            >
+              <b-taglist attached>
+                <b-tag
+                  :type="
+                    currentTagFilter === tag[0] ? 'is-chocolate' : 'is-dark'
+                  "
+                  size="is-large"
+                  >{{ tag[0] }}</b-tag
+                >
+                <b-tag type="is-info" size="is-large">{{ tag[1] }}</b-tag>
+              </b-taglist>
+            </div>
+          </div>
           <SoftwareSearch :software="software" @showModal="showModal" />
           <div class="grid">
             <SoftwareItem
-              v-for="softwareitem in Object.values(software).slice(
+              v-for="softwareitem in Object.values(softwareDisplay).slice(
                 (currentPage - 1) * 40,
                 currentPage * 40
               )"
@@ -107,6 +125,7 @@ export default {
     return {
       showInstallModal: false,
       timestamp: 0,
+      softwareDisplay: [],
       software: [],
       loaded: false,
       currentPage: 1,
@@ -114,11 +133,27 @@ export default {
       modalSoftware: {},
       modalCache: {},
       installQueue: [],
+      tags: [],
+      currentTagFilter: "All",
     };
   },
   methods: {
-    updateLoadState(state) {
-      this.loaded = state;
+    updateTagList() {
+      var tags = this.software.reduce((a, b) => {
+        for (const tag of b.tags) {
+          if (a[tag] === undefined) {
+            a[tag] = 0;
+          }
+          a[tag]++;
+        }
+        return a;
+      }, {});
+
+      this.tags = Object.entries(tags)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 99);
+      this.tags.unshift(["All", this.software.length]);
+      console.log(this.tags);
     },
     showModal(packageName) {
       this.modalPkg = packageName;
@@ -136,16 +171,18 @@ export default {
   },
   created: function() {
     this.axios.interceptors.request.use((config) => {
-      this.updateLoadState(false);
+      this.loaded = false;
       return config;
     });
     this.axios.interceptors.response.use((response) => {
-      this.updateLoadState(true);
+      this.loaded = true;
       return response;
     });
     this.axios.get("package_data.json").then((response) => {
       this.timestamp = response.data.timestamp;
       this.software = response.data.software;
+      this.softwareDisplay = this.software;
+      this.updateTagList();
     });
     EventBus.$on("installQueueChanged", function() {
       this.installQueue = this.$installQueue;
@@ -156,6 +193,26 @@ export default {
       document.title = title;
     });
   },
+  watch: {
+    currentTagFilter: function() {
+      if (this.currentTagFilter === "All") {
+        this.softwareDisplay = this.software;
+      } else {
+        this.softwareDisplay = this.software.filter(
+          (software) => software.tags.indexOf(this.currentTagFilter) !== -1
+        );
+      }
+      console.log(this.softwareDisplay);
+      console.log(Object.filter);
+    },
+  },
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+#tags .tags {
+  flex-wrap: nowrap;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+</style>

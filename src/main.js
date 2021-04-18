@@ -12,7 +12,10 @@ Vue.use(Buefy);
 
 Vue.prototype.$gitcommit = process.env.VUE_APP_GIT_HASH;
 Vue.prototype.$installQueue = [];
-
+Object.filter = (obj, predicate) =>
+  Object.keys(obj)
+    .filter((key) => predicate(obj[key]))
+    .reduce((res, key) => ((res[key] = obj[key]), res), {});
 Vue.config.productionTip = false;
 new Vue({
   render: (h) => h(App),
