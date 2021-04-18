@@ -64,13 +64,12 @@ export default {
       // useExtendedSearch: false,
       // ignoreLocation: false,
       // ignoreFieldNorm: false,
-      keys: ["summary", "packageName", "displayName"],
+      keys: ["summary", "packageName", "displayName", "tags"],
     };
     const index = Fuse.createIndex(options.keys, this.software);
     const fuse = new Fuse(this.software, options, index);
     return {
       query: "",
-      opts: { keys: ["summary", "packageName", "displayName"] },
       results: [],
       fuse: fuse,
     };
