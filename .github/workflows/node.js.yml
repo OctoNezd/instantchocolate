@@ -13,17 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Workflow Runs
-        # You may pin to the exact commit or the version.
-        # uses: n1hility/cancel-previous-runs@953c92201f368370112ea2754545cb4468d89f12
         uses: n1hility/cancel-previous-runs@v2.0
         with:
-          # The GITHUB_TOKEN secret of this github workflow
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
       - name: Use Node.js 15.x
         uses: actions/setup-node@v2
         with:
-          node-version: 15.x
+          node-version: "15.x"
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
       - run: npm run build --if-present
@@ -34,6 +31,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: "./dist"
           force_orphan: true
-          cname: instantchocolate.octonezd.me
+          cname: "instantchocolate.octonezd.me"
