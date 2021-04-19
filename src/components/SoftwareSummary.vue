@@ -48,6 +48,8 @@
 import SoftwareAddButton from "./SoftwareAddButton.vue";
 import IconDisplay from "./IconDisplay.vue";
 import { EventBus } from "@/eventBus.js";
+import { findPackageMixin } from "@/shared.js";
+
 export default {
   name: "SoftwareSummary",
   components: { SoftwareAddButton, IconDisplay },
@@ -58,6 +60,7 @@ export default {
     showToggleButton: Boolean,
     softwareCatalog: Array,
   },
+  mixins: [findPackageMixin],
   data: function() {
     if (this.softwareCatalog) {
       return {
@@ -68,12 +71,6 @@ export default {
     }
   },
   methods: {
-    findPackage: function(packageName) {
-      // https://stackoverflow.com/a/13964186
-      return this.softwareCatalog.filter((obj) => {
-        return obj.packageName === packageName;
-      })[0];
-    },
     swap: function() {
       EventBus.$installQueue[
         EventBus.$installQueue.indexOf(this.software.packageName)

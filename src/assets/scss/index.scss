@@ -91,7 +91,14 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
 .ps__rail-x:hover {
   background-color: var(--border-color) !important;
 }
-
+.preset {
+  background-color: var(--bglight);
+  color: var(--text);
+}
+.flex-grow-to-right {
+  flex-grow: 1;
+  text-align: right;
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #{$dark};
@@ -114,6 +121,7 @@ body {
   overflow-y: hidden;
   display: flex;
   flex-direction: row;
+  // padding-bottom: 5px;
 }
 
 .spacer {
@@ -127,7 +135,9 @@ $chocolate: #a85418;
 .has-text-chocolate {
   color: $chocolate !important;
 }
-
+.marginbottom {
+  margin-bottom: 1rem;
+}
 // Import Bulma and Buefy styles
 @import "~bulma";
 @import "~buefy/src/scss/buefy";

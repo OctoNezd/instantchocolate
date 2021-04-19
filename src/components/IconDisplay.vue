@@ -2,7 +2,7 @@
   <img
     class="software-icon"
     v-if="!fallback"
-    :src="src"
+    :src="finalUrl"
     @error="fallback = true"
     alt="Software icon"
   />
@@ -17,9 +17,17 @@
 <script>
 export default {
   name: "IconDisplay",
-  props: ["src"],
+  props: ["src", "software"],
   data: function() {
-    return { fallback: false };
+    var finalUrl = this.src;
+    var fallback = false;
+    if (this.src === undefined && this.software !== undefined) {
+      finalUrl = this.software.icon;
+    } else if (this.src === undefined && this.software === undefined) {
+      finalUrl = "";
+      fallback = true;
+    }
+    return { fallback: fallback, finalUrl: finalUrl };
   },
 };
 </script>

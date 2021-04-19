@@ -31,6 +31,7 @@
             @tagSelected="(tag) => (currentTagFilter = tag)"
           />
           <SoftwareSearch :software="software" @showModal="showModal" />
+          <Presets :softwareCatalog="software" />
           <div class="grid">
             <SoftwareItem
               v-for="softwareitem in Object.values(softwareDisplay).slice(
@@ -60,7 +61,7 @@
       </div>
     </section>
     <InstallQueue
-      :softwarelist="software"
+      :softwareCatalog="software"
       :installQueue="installQueue"
       @toggleInstallInstructions="showInstallModal = !showInstallModal"
       buttonText="Show install instructions!"
@@ -76,7 +77,7 @@
     >
       <InstallInstructions
         @toggleInstallInstructions="showInstallModal = !showInstallModal"
-        :software="software"
+        :softwareCatalog="software"
       />
     </b-modal>
 
@@ -101,6 +102,8 @@ import InstallQueue from "./components/InstallQueue.vue";
 import SoftwareSearch from "./components/SoftwareSearch.vue";
 import InstallInstructions from "./components/InstallInstructions.vue";
 import TagList from "./components/TagList.vue";
+import Presets from "./components/Presets.vue";
+
 import { EventBus } from "./eventBus.js";
 import "./assets/scss/index.scss";
 export default {
@@ -114,6 +117,7 @@ export default {
     SoftwareSearch,
     InstallInstructions,
     TagList,
+    Presets,
   },
   data: function() {
     return {
@@ -162,9 +166,7 @@ export default {
       }
     },
     updateQueue(installQueue) {
-      console.log("installqueue changed", installQueue);
       this.installQueue = installQueue;
-      console.log("new app iq", this.installQueue);
       var title = "InstantChocolate";
       if (this.installQueue.length !== 0) {
         title += ` | ${installQueue.length} packages pending`;
@@ -190,9 +192,9 @@ export default {
       this.updateTagList();
       const urlParams = new URLSearchParams(window.location.search).get("p");
       if (urlParams !== null) {
-        const pendingSoftwareList = urlParams.split(" ");
+        const pendingsoftwareCatalog = urlParams.split(" ");
         var pendingSoftwareGood = true;
-        for (const pendingSoftware of pendingSoftwareList) {
+        for (const pendingSoftware of pendingsoftwareCatalog) {
           pendingSoftwareGood = this.software.find(
             (software) => software.packageName === pendingSoftware
           );
@@ -202,7 +204,7 @@ export default {
           }
         }
         if (pendingSoftwareGood) {
-          EventBus.$emit(EventBus.installQueueChanged, pendingSoftwareList);
+          EventBus.$emit(EventBus.installQueueChanged, pendingsoftwareCatalog);
         }
       }
     });

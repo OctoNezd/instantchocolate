@@ -37,22 +37,16 @@
   </div>
 </template>
 <script>
+import { findPackageMixin } from "@/shared.js";
 export default {
   name: "InstallQueue",
   props: {
-    softwarelist: Array,
+    softwareCatalog: Array,
     pinned: Boolean,
     buttonText: String,
     installQueue: Array,
   },
-  methods: {
-    findPackage: function(packageName) {
-      // https://stackoverflow.com/a/13964186
-      return this.softwarelist.filter((obj) => {
-        return obj.packageName === packageName;
-      })[0];
-    },
-  },
+  mixins: [findPackageMixin],
 };
 </script>
 <style lang="scss">

@@ -2,7 +2,7 @@
   <div class="modal-card" id="installguide" style="width: auto">
     <div class="overflow-on">
       <InstallQueue
-        :softwarelist="software"
+        :softwareCatalog="softwareCatalog"
         :installQueue="installQueue"
         @toggleInstallInstructions="$emit('toggleInstallInstructions')"
         buttonText="Hide install instructions"
@@ -13,7 +13,7 @@
             <p class="title is-4">Packages that will be installed:</p>
             <SoftwareSummary
               :software="findPackage(packageName)"
-              :softwareCatalog="software"
+              :softwareCatalog="softwareCatalog"
               v-for="packageName in installQueue"
               :key="packageName"
               nodescription
@@ -84,11 +84,13 @@ import InstallQueue from "./InstallQueue.vue";
 import SoftwareSummary from "./SoftwareSummary.vue";
 import powershellinstallscript from "raw-loader!@/assets/autoscript_base.ps1";
 import { EventBus } from "@/eventBus.js";
+import { findPackageMixin } from "@/shared.js";
 
 export default {
   name: "InstallInstructions",
-  props: ["software"],
+  props: ["softwareCatalog"],
   components: { InstallQueue, SoftwareSummary },
+  mixins: [findPackageMixin],
   data: function() {
     return {
       installScriptUrl: "",
@@ -98,12 +100,6 @@ export default {
     };
   },
   methods: {
-    findPackage: function(packageName) {
-      // https://stackoverflow.com/a/13964186
-      return this.software.filter((obj) => {
-        return obj.packageName === packageName;
-      })[0];
-    },
     copyToClipboard: function(e) {
       e.srcElement.parentElement.parentElement.querySelector("input").select();
       document.execCommand("copy");
