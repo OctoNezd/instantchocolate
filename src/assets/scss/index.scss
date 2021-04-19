@@ -2,6 +2,10 @@
 @import "~bulma/sass/utilities/_all";
 @import "~@creativebulma/bulma-divider";
 @media (min-width: $tablet) {
+  .preset {
+    min-width: 45%;
+    max-width: 45%;
+  }
   .grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -17,6 +21,10 @@
   }
 }
 @media (max-width: $tablet) {
+  .preset {
+    min-width: 95%;
+    max-width: 95%;
+  }
   .column-mobile,
   .instructionstep {
     align-content: center;

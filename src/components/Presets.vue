@@ -7,7 +7,6 @@
           <p v-html="presets[presetAbout].description" />
           <p class="subtitle">Software included:</p>
           <SoftwareSummary
-            style="max-width: 60%"
             :software="findPackage(packageName)"
             :softwareCatalog="softwareCatalog"
             v-for="packageName in presets[presetAbout].software"
@@ -43,7 +42,7 @@
           >
             <IconDisplay :software="findPackage(software)" />
           </figure>
-          <p>({{ preset.software.length - 3 }} more)</p>
+          <p>(+{{ preset.software.length - 3 }})</p>
           <div class="flex-grow-to-right">
             <a @click.stop="showMore(presetName)"
               ><b-icon icon="dots-horizontal"
@@ -141,8 +140,6 @@ export default {
   display: block;
   padding: 0.5em;
   cursor: pointer;
-  min-width: 45%;
-  max-width: 45%;
 }
 .preset:not(:last-child),
 .preset *:not(:last-child) {
