@@ -69,8 +69,10 @@
               download="instantChocolate.ps1"
               class="button is-warning"
               id="dlps1"
-              >Download PowerShell script</a
             >
+              <b-icon icon="powershell" size="null" />
+              <p>Download PowerShell script</p>
+            </a>
             <br />
             Right-click on downloaded file and click "Run In PowerShell"
           </div>
@@ -83,6 +85,7 @@
 import InstallQueue from "./InstallQueue.vue";
 import SoftwareSummary from "./SoftwareSummary.vue";
 import powershellinstallscript from "raw-loader!@/assets/autoscript_base.ps1";
+import powershellinstallend from "raw-loader!@/assets/autoscript_end.ps1";
 import { EventBus } from "@/eventBus.js";
 import { findPackageMixin } from "@/shared.js";
 
@@ -112,9 +115,9 @@ export default {
       }
       this.installScript =
         powershellinstallscript +
-        `\n\nchoco install -y ${this.installQueue.join(
-          " "
-        )}\nWrite-Host Done!\npause`;
+        `\nchoco install -y ${this.installQueue.join(" ")}` +
+        "\n" +
+        powershellinstallend;
       this.installScriptUrl = window.URL.createObjectURL(
         new Blob([this.installScript], { type: "application/octet-stream" })
       );
