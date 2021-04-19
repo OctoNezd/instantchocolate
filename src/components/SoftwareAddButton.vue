@@ -13,21 +13,21 @@ export default {
     return { state: false };
   },
   created: function() {
-    EventBus.$on("installQueueChanged", this.updateState);
-    this.updateState();
+    EventBus.$on(EventBus.installQueueChanged, this.updateState);
+    this.updateState(EventBus.$installQueue);
   },
   methods: {
-    updateState: function() {
-      this.state = this.$installQueue.indexOf(this.package) !== -1;
+    updateState: function(installQueue) {
+      this.state = installQueue.indexOf(this.package) !== -1;
     },
     toggle: function() {
-      var index = this.$installQueue.indexOf(this.package);
+      var index = EventBus.$installQueue.indexOf(this.package);
       if (index !== -1) {
-        this.$installQueue.splice(index, 1);
+        EventBus.$installQueue.splice(index, 1);
       } else {
-        this.$installQueue.push(this.package);
+        EventBus.$installQueue.push(this.package);
       }
-      EventBus.$emit("installQueueChanged");
+      EventBus.$emit(EventBus.installQueueChanged, EventBus.$installQueue);
       this.$emit("toggled");
     },
   },

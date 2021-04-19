@@ -61,6 +61,7 @@
     </section>
     <InstallQueue
       :softwarelist="software"
+      :installQueue="installQueue"
       @toggleInstallInstructions="showInstallModal = !showInstallModal"
       buttonText="Show install instructions!"
       pinned
@@ -160,6 +161,18 @@ export default {
         });
       }
     },
+    updateQueue(installQueue) {
+      console.log("installqueue changed", installQueue);
+      this.installQueue = installQueue;
+      console.log("new app iq", this.installQueue);
+      var title = "InstantChocolate";
+      if (this.installQueue.length !== 0) {
+        title += ` | ${installQueue.length} packages pending`;
+      }
+      document.title = title;
+
+      history.pushState(installQueue, title, `/?p=${installQueue.join("+")}`);
+    },
   },
   created: function() {
     this.axios.interceptors.request.use((config) => {
@@ -175,15 +188,25 @@ export default {
       this.software = response.data.software;
       this.softwareDisplay = this.software;
       this.updateTagList();
-    });
-    EventBus.$on("installQueueChanged", function() {
-      this.installQueue = this.$installQueue;
-      var title = "InstantChocolate";
-      if (this.installQueue.length !== 0) {
-        title += ` | ${this.installQueue.length} packages pending`;
+      const urlParams = new URLSearchParams(window.location.search).get("p");
+      if (urlParams !== null) {
+        const pendingSoftwareList = urlParams.split(" ");
+        var pendingSoftwareGood = true;
+        for (const pendingSoftware of pendingSoftwareList) {
+          pendingSoftwareGood = this.software.find(
+            (software) => software.packageName === pendingSoftware
+          );
+          if (!pendingSoftwareGood) {
+            console.log("Unknown package", pendingSoftware);
+            break;
+          }
+        }
+        if (pendingSoftwareGood) {
+          EventBus.$emit(EventBus.installQueueChanged, pendingSoftwareList);
+        }
       }
-      document.title = title;
     });
+    EventBus.$on(EventBus.installQueueChanged, this.updateQueue);
   },
   watch: {
     currentTagFilter: function() {

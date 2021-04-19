@@ -3,6 +3,7 @@
     <div class="overflow-on">
       <InstallQueue
         :softwarelist="software"
+        :installQueue="installQueue"
         @toggleInstallInstructions="$emit('toggleInstallInstructions')"
         buttonText="Hide install instructions"
       />
@@ -91,7 +92,7 @@ export default {
   data: function() {
     return {
       installScriptUrl: "",
-      installQueue: this.$installQueue,
+      installQueue: EventBus.$installQueue,
       installScript: "",
       installSteps: [],
     };
@@ -107,8 +108,8 @@ export default {
       e.srcElement.parentElement.parentElement.querySelector("input").select();
       document.execCommand("copy");
     },
-    refreshData: function() {
-      this.installQueue = this.$installQueue;
+    refreshData: function(installQueue) {
+      this.installQueue = installQueue;
       if (this.installQueue.length === 0) {
         this.$emit("toggleInstallInstructions");
         return;
@@ -147,8 +148,8 @@ export default {
     },
   },
   created: function() {
-    this.refreshData();
-    EventBus.$on("installQueueChanged", this.refreshData);
+    this.refreshData(EventBus.$installQueue);
+    EventBus.$on(EventBus.installQueueChanged, this.refreshData);
   },
 };
 </script>

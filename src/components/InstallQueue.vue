@@ -37,18 +37,13 @@
   </div>
 </template>
 <script>
-import { EventBus } from "@/eventBus.js";
-
 export default {
   name: "InstallQueue",
-  props: { softwarelist: Array, pinned: Boolean, buttonText: String },
-  data: function() {
-    return { installQueue: this.$installQueue };
-  },
-  created: function() {
-    EventBus.$on("installQueueChanged", function() {
-      this.installQueue = this.$installQueue;
-    });
+  props: {
+    softwarelist: Array,
+    pinned: Boolean,
+    buttonText: String,
+    installQueue: Array,
   },
   methods: {
     findPackage: function(packageName) {

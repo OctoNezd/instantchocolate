@@ -75,10 +75,10 @@ export default {
       })[0];
     },
     swap: function() {
-      this.$installQueue[
-        this.$installQueue.indexOf(this.software.packageName)
+      EventBus.$installQueue[
+        EventBus.$installQueue.indexOf(this.software.packageName)
       ] = this.replacement.packageName;
-      EventBus.$emit("installQueueChanged");
+      EventBus.$emit(EventBus.installQueueChanged, EventBus.$installQueue);
     },
   },
 };
