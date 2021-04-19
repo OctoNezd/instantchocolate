@@ -1,5 +1,6 @@
 const { gitDescribeSync } = require("git-describe");
-process.env.VUE_APP_GIT_HASH = gitDescribeSync().hash;
+console.log(gitDescribeSync());
+process.env.VUE_APP_GIT_HASH = gitDescribeSync().semverString;
 module.exports = {
   pages: {
     index: {

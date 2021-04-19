@@ -84,7 +84,7 @@
         <p>
           <b>InstantChocolate</b> by OctoNezd<br />
           This site is not made or endorsed by Chocolatey developers.<br />
-          Commit: {{ $gitcommit }}
+          Version: {{ $gitcommit }}
         </p>
       </div>
     </footer>
