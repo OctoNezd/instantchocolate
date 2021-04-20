@@ -88,6 +88,7 @@ export default {
       "filezilla",
       "nmap",
       "wireshark",
+      "sysinternals",
       ...developerBase,
     ];
     return {
