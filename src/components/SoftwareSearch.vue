@@ -72,25 +72,30 @@ export default {
       query: "",
       results: [],
       fuse: fuse,
+      queryInterval: undefined,
     };
   },
   methods: {},
   watch: {
     query: function() {
+      clearTimeout(this.queryInterval);
+      this.results = [];
       if (this.query && this.query.length > 1) {
-        var res = this.fuse.search(this.query).slice(0, 10);
-        res = res.sort(function(a, b) {
-          if (a.downloadCount > b.downloadCount) {
-            return 1;
-          } else if (a.downloadCount < b.downloadCount) {
-            return -1;
-          } else {
-            return 0;
-          }
-        });
-        this.results = res;
-      } else {
-        this.results = [];
+        this.queryInterval = setTimeout(() => {
+          console.log("setTimeout START", this.query);
+          var res = this.fuse.search(this.query).slice(0, 10);
+          res = res.sort(function(a, b) {
+            if (a.downloadCount > b.downloadCount) {
+              return 1;
+            } else if (a.downloadCount < b.downloadCount) {
+              return -1;
+            } else {
+              return 0;
+            }
+          });
+          this.results = res;
+        }, 500);
+        console.log("setTimeout", this.query, this.queryInterval);
       }
     },
   },
