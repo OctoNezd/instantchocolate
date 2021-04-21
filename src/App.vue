@@ -1,8 +1,6 @@
 <template>
   <div id="app" class="">
-    <b-modal :active="!loaded" :can-cancel="false">
-      <Loader />
-    </b-modal>
+    <Loader />
     <b-modal v-model="modalShow">
       <SoftwareInfo
         :software="modalSoftware"
@@ -16,7 +14,7 @@
           <b-icon icon="coffee" size="is-medium" />
           InstantChocolate
         </p>
-        <p class="subtitle" v-if="loaded">
+        <p class="subtitle" v-if="timestamp">
           Repo definition update:
           {{ Intl.DateTimeFormat("en").format(new Date(timestamp * 1000)) }}
         </p>
@@ -125,7 +123,6 @@ export default {
       timestamp: 0,
       softwareDisplay: [],
       software: [],
-      loaded: false,
       currentPage: 1,
       modalShow: false,
       modalSoftware: {},
@@ -177,14 +174,6 @@ export default {
     },
   },
   created: function() {
-    this.axios.interceptors.request.use((config) => {
-      this.loaded = false;
-      return config;
-    });
-    this.axios.interceptors.response.use((response) => {
-      this.loaded = true;
-      return response;
-    });
     this.axios.get("package_data.json").then((response) => {
       this.timestamp = response.data.timestamp;
       this.software = response.data.software;
