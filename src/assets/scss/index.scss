@@ -2,169 +2,175 @@
 @import "~bulma/sass/utilities/_all";
 @import "~@creativebulma/bulma-divider";
 @media (min-width: $tablet) {
-  .preset {
-    min-width: 45%;
-    max-width: 45%;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    align-items: stretch;
-    column-gap: 10px;
-    row-gap: 10px;
-  }
-  #instructions {
-    margin-left: 2rem;
-  }
-  .is-very-very-big {
-    margin-right: 0.5rem;
-  }
+    .preset {
+        min-width: 45%;
+        max-width: 45%;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        align-items: stretch;
+        column-gap: 10px;
+        row-gap: 10px;
+    }
+    #instructions {
+        margin-left: 2rem;
+    }
+    .is-very-very-big {
+        margin-right: 0.5rem;
+    }
 }
 @media (max-width: $tablet) {
-  .preset {
-    min-width: 95%;
-    max-width: 95%;
-  }
-  .column-mobile,
-  .instructionstep {
-    align-content: center;
-    text-align: center;
-    flex-direction: column;
-  }
-  .instructionstep {
-    align-items: center;
-  }
+    .preset {
+        min-width: 95%;
+        max-width: 95%;
+    }
+    .column-mobile,
+    .instructionstep {
+        align-content: center;
+        text-align: center;
+        flex-direction: column;
+    }
+    .instructionstep {
+        align-items: center;
+    }
 }
 .overflow-on {
-  overflow-y: scroll;
+    overflow-y: scroll;
 }
 :root {
-  --background: #{$background};
-  --text: #{$text};
-  --textbarely: #{$text};
-  --bglight: #{$background};
-  --border-color: #{$grey-lighter};
-  --link: #{$link};
-  --hover: #{$link-hover};
-  --darkbg: #{$dark};
-  --darkbgtext: #{$light};
+    --background: #{$background};
+    --text: #{$text};
+    --textbarely: #{$text};
+    --bglight: #{$background};
+    --border-color: #{$grey-lighter};
+    --link: #{$link};
+    --hover: #{$link-hover};
+    --darkbg: #{$dark};
+    --darkbgtext: #{$light};
 }
 /* Works on Firefox */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-color) var(--bglight);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) var(--bglight);
 }
 
 /* Works on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 12px;
+    width: 12px;
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--background);
+    background: var(--background);
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--bglight);
-  border-radius: 20px;
-  border: 3px solid var(--border-color);
+    background-color: var(--bglight);
+    border-radius: 20px;
+    border: 3px solid var(--border-color);
 }
 a:not(.button):not(.has-text-danger, .pagination-link) {
-  color: var(--link) !important;
+    color: var(--link) !important;
 }
 a:hover:not(.button):not(.has-text-danger, .pagination-link) {
-  color: var(--hover) !important;
+    color: var(--hover) !important;
 }
 .pagination-link:not(.is-current) {
-  color: var(--text) !important;
+    color: var(--text) !important;
 }
 .button.is-dark {
-  background-color: var(--darkbg) !important;
-  color: var(--darkbgtext) !important;
+    background-color: var(--darkbg) !important;
+    color: var(--darkbgtext) !important;
 }
 .label,
 .title:not(.hero *),
 .subtitle:not(.hero *),
 .icon.is-clickable {
-  color: var(--text) !important;
+    color: var(--text) !important;
 }
 .input,
 .dropdown-item:hover {
-  background-color: var(--bglight) !important;
-  color: var(--text) !important ;
+    background-color: var(--bglight) !important;
+    color: var(--text) !important ;
 }
 .input,
 .card-footer,
-.card-footer-item {
-  border-color: var(--border-color) !important;
+.card-footer-item,
+.modal-card-foot,
+.modal-card-head {
+    border-color: var(--border-color) !important;
 }
 .input::placeholder {
-  color: var(--textbarely) !important;
+    color: var(--textbarely) !important;
 }
-.card {
-  background-color: var(--bglight) !important;
-  color: var(--text) !important;
+.card,
+.modal-card-body {
+    background-color: var(--bglight) !important;
+    color: var(--text) !important;
 }
 .background,
 .modal-card,
 .footer,
-.dropdown-content {
-  background-color: var(--background) !important;
-  color: var(--text) !important;
+.dropdown-content,
+.modal-card-foot,
+.modal-card-head,
+.modal-card-title {
+    background-color: var(--background) !important;
+    color: var(--text) !important;
 }
 .is-dark {
-  background-color: var(--text) !important;
-  color: var(--background) !important;
+    background-color: var(--text) !important;
+    color: var(--background) !important;
 }
 .ps__rail-x:hover {
-  background-color: var(--border-color) !important;
+    background-color: var(--border-color) !important;
 }
 .preset {
-  background-color: var(--bglight);
-  color: var(--text);
+    background-color: var(--bglight);
+    color: var(--text);
 }
 .flex-grow-to-right {
-  flex-grow: 1;
-  text-align: right;
+    flex-grow: 1;
+    text-align: right;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #{$dark};
-    --text: #{$background};
-    --bglight: #{$grey-dark};
-    --border-color: #{$grey-darker};
-    --textbarely: #{$grey-light};
-    --link: #{$info-light};
-    --hover: #{$grey-lighter};
-    --darkbg: #{$light};
-    --darkbgtext: #{$dark};
-  }
+    :root {
+        --background: #{$dark};
+        --text: #{$background};
+        --bglight: #{$grey-dark};
+        --border-color: #{$grey-darker};
+        --textbarely: #{$grey-light};
+        --link: #{$info-light};
+        --hover: #{$grey-lighter};
+        --darkbg: #{$light};
+        --darkbgtext: #{$dark};
+    }
 }
 body {
-  background-color: var(--background);
+    background-color: var(--background);
 }
 
 .scrollable-x {
-  overflow-y: auto;
-  overflow-y: hidden;
-  display: flex;
-  flex-direction: row;
-  // padding-bottom: 5px;
+    overflow-y: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    // padding-bottom: 5px;
 }
 
 .spacer {
-  width: 1em;
+    width: 1em;
 }
 $chocolate: #a85418;
 .is-chocolate {
-  background-color: $chocolate !important;
-  color: white !important;
+    background-color: $chocolate !important;
+    color: white !important;
 }
 .has-text-chocolate {
-  color: $chocolate !important;
+    color: $chocolate !important;
 }
 .marginbottom {
-  margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 // Import Bulma and Buefy styles
 @import "~bulma";

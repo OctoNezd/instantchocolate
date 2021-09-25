@@ -24,3 +24,5 @@ pnpm-debug.log*
 
 # Fuse.js generated index
 fuse-index.json
+# Downloaded installer
+*.exe

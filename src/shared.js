@@ -1,14 +1,12 @@
-export const findPackageMixin = {
-  methods: {
-    findPackage: function(packageName) {
-      // https://stackoverflow.com/a/13964186
-      var software = this.softwareCatalog.filter((obj) => {
-        return obj.packageName.toLowerCase() === packageName.toLowerCase();
-      })[0];
-      if (software === undefined) {
-        console.warn("Failed to find", packageName);
-      }
-      return software;
+import { mapState } from "vuex";
+export const packageMixin = {
+    methods: {
+        findPackage: function(packageName) {
+            return this.packageList[packageName];
+        }
     },
-  },
+    computed: mapState({
+        packageList: state => state.packageList.packages,
+        installQueue: state => state.installQueue
+    })
 };
