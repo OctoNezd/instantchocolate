@@ -1,5 +1,6 @@
 <template>
     <div>
+        <p class="subtitle is-9">{{ displayList.length }} results</p>
         <div v-if="displayList.length > 0">
             <div class="grid">
                 <SoftwareItem
@@ -14,8 +15,8 @@
                 />
             </div>
             <Pagination
-                :totalPages="Math.floor(displayList.length / 40)"
                 v-model="currentPage"
+                :totalItems="displayList.length"
             />
         </div>
         <div v-else class="has-text-centered">

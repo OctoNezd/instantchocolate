@@ -14,7 +14,7 @@
             >
             <a
                 class="pagination-next"
-                v-show="currentPage != totalPages"
+                v-show="currentPage < totalPages"
                 href="#pagination"
                 @click="updatePage(currentPage + 1)"
                 >Next page</a
@@ -40,43 +40,43 @@
 export default {
     name: "Pagination",
     data: function() {
-        return { pages: [], currentPage: 1 };
+        return { currentPage: 1 };
     },
     model: { prop: "currentPage" },
 
-    props: ["totalPages"],
-    created: function() {
-        this.updatePagination();
-    },
+    props: ["totalItems"],
     methods: {
         updatePage: function(newPage) {
             this.$emit("input", newPage);
             this.currentPage = newPage;
-            this.updatePagination();
-        },
-        updatePagination: function() {
-            this.pages = [];
-            if (this.currentPage !== 1) {
-                this.pages.push(1);
-                if (this.currentPage - 1 !== 1) {
-                    this.pages.push("backdots", this.currentPage - 1);
-                }
-            }
-            this.pages.push(this.currentPage);
-            if (this.currentPage !== this.totalPages) {
-                if (this.currentPage + 1 !== this.totalPages) {
-                    this.pages.push(this.currentPage + 1, "nextdots");
-                }
-                this.pages.push(this.totalPages);
-            }
         }
     },
     watch: {
-        totalPages: function() {
-            this.updatePagination();
+        totalItems: function() {
+            console.log("Setting page to 1");
+            this.updatePage(1);
+        }
+    },
+    computed: {
+        totalPages() {
+            return Math.floor(this.totalItems / 40);
         },
-        currentPage: function() {
-            this.updatePagination();
+        pages() {
+            var pages = [];
+            if (this.currentPage !== 1) {
+                pages.push(1);
+                if (this.currentPage - 1 !== 1) {
+                    pages.push("backdots", this.currentPage - 1);
+                }
+            }
+            pages.push(this.currentPage);
+            if (this.currentPage < this.totalPages) {
+                if (this.currentPage + 1 !== this.totalPages) {
+                    pages.push(this.currentPage + 1, "nextdots");
+                }
+                pages.push(this.totalPages);
+            }
+            return pages;
         }
     }
 };
