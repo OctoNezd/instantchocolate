@@ -5,8 +5,21 @@ export const packageMixin = {
             return this.packageList[packageName];
         }
     },
-    computed: mapState({
-        packageList: state => state.packageList.packages,
-        installQueue: state => state.installQueue
-    })
+    computed: {
+        packageModalVisible: {
+            get() {
+                return this.packageModalData !== undefined;
+            },
+            set(newValue) {
+                if (newValue === false) {
+                    this.$store.commit("clearPackageModal");
+                }
+            }
+        },
+        ...mapState({
+            packageList: state => state.packageList.packages,
+            installQueue: state => state.installQueue,
+            packageModalData: state => state.packageModalData
+        })
+    }
 };

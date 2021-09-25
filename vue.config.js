@@ -18,7 +18,8 @@ axios
                 installerFile.data.pipe(file);
                 console.log("Installer download complete");
             });
-    });
+    })
+    .catch(console.log);
 
 module.exports = {
     pages: {
@@ -31,5 +32,9 @@ module.exports = {
             // output as dist/index.html
             filename: "index.html"
         }
+    },
+
+    css: {
+        sourceMap: true
     }
 };

@@ -89,11 +89,6 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
     color: var(--text) !important;
 }
 .input,
-.dropdown-item:hover {
-    background-color: var(--bglight) !important;
-    color: var(--text) !important ;
-}
-.input,
 .card-footer,
 .card-footer-item,
 .modal-card-foot,
@@ -104,7 +99,10 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
     color: var(--textbarely) !important;
 }
 .card,
-.modal-card-body {
+.modal-card-body,
+.input,
+.dropdown-item:hover,
+#sidePanel {
     background-color: var(--bglight) !important;
     color: var(--text) !important;
 }
@@ -165,6 +163,9 @@ $chocolate: #a85418;
 .is-chocolate {
     background-color: $chocolate !important;
     color: white !important;
+}
+.is-text {
+    color: var(--text);
 }
 .has-text-chocolate {
     color: $chocolate !important;

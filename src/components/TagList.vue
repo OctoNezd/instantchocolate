@@ -1,47 +1,49 @@
 <template>
     <div>
         <p class="label">Tags</p>
-        <perfect-scrollbar class="taglist scrollable-x marginbottom">
+        <b-taglist class="packageTaglist">
             <div
                 v-for="tag of tags"
                 :key="Array.isArray(tag) ? tag[0] : tag"
                 @click="$emit('tagSelected', Array.isArray(tag) ? tag[0] : tag)"
             >
-                <b-taglist v-if="single">
-                    <b-tag size="is-medium" type="is-dark">{{ tag }}</b-tag>
-                </b-taglist>
-                <b-taglist v-else attached>
+                <b-taglist :attached="!single" v-if="tag !== undefined">
                     <b-tag
                         :type="
-                            currentTagFilter === tag[0]
+                            currentTagFilter !== undefined &&
+                            currentTagFilter.includes(tag[0])
                                 ? 'is-chocolate'
                                 : 'is-dark'
                         "
-                        size="is-large"
-                        >{{ tag[0] }}</b-tag
+                        size="is-small"
                     >
+                        {{ typeof tag === "string" ? tag : tag[0] }}
+                    </b-tag>
                     <b-tag
-                        v-if="tag[1] !== undefined"
+                        v-if="tag[1] !== undefined && !single"
                         type="is-info"
-                        size="is-large"
+                        size="is-small"
                         >{{ tag[1] }}</b-tag
                     >
                 </b-taglist>
             </div>
-        </perfect-scrollbar>
+        </b-taglist>
     </div>
 </template>
 <script>
 export default {
     name: "TagList",
-    props: { tags: Array, single: Boolean, currentTagFilter: String }
+    props: { tags: Array, single: Boolean, currentTagFilter: Array }
 };
 </script>
 <style>
-.taglist .tags {
-    flex-wrap: nowrap;
-    margin-right: 1rem;
-    margin-top: 0.5rem;
+.tag {
     cursor: pointer;
+    margin: 3px;
+}
+.packageTaglist {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 </style>

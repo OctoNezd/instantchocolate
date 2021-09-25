@@ -8,7 +8,12 @@
         <footer class="card-footer">
             <div href="#" class="card-footer-item">
                 <b-skeleton v-if="skeleton" size="is-large" />
-                <a v-else @click="$emit('showModal', software.packageName)">
+                <a
+                    v-else
+                    @click="
+                        $store.dispatch('setPackageModal', software.packageName)
+                    "
+                >
                     <b-icon icon="information" size="is-small" />
                     More info
                 </a>

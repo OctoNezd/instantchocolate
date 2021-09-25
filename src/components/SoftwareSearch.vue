@@ -9,29 +9,26 @@
                 field="packageName"
                 @select="
                     selected => {
-                        $emit('showModal', selected.item.packageName);
+                        $store.dispatch(
+                            'setPackageModal',
+                            selected.item.packageName
+                        );
                     }
                 "
+                :icon-right="query.length > 0 ? `close-circle` : ''"
+                icon-right-clickable
+                @icon-right-click="query = ''"
             >
                 <template slot-scope="props">
                     <div class="media is-align-items-stretch">
                         <div class="media-left">
-                            <figure class="image is-48x48">
-                                <IconDisplay :src="props.option.item.icon" />
+                            <figure class="image is-125rem">
+                                <IconDisplay :src="props.option.icon" />
                             </figure>
                         </div>
                         <div class="media-content">
-                            <p class="title is-4">
-                                {{ props.option.item.displayName }}
-                            </p>
-                            <p
-                                :class="
-                                    props.option.item.displayName !== ''
-                                        ? 'subtitle is-6'
-                                        : 'title is-4'
-                                "
-                            >
-                                {{ props.option.item.packageName }}
+                            <p class="subtitle is-5">
+                                {{ props.option.displayName }}
                             </p>
                         </div>
                     </div>
@@ -78,8 +75,16 @@ export default {
                             return 0;
                         }
                     });
+                    res = res.map(item => item.item);
                     this.results = res;
+
+                    this.$emit("searchComplete", {
+                        results: res,
+                        query: this.query
+                    });
                 }, 500);
+            } else if (this.query.length === 0) {
+                this.$emit("searchCleared");
             }
         },
         packageList: async function() {}
@@ -112,5 +117,9 @@ export default {
 }
 .media-left figure {
     min-height: 100%;
+}
+.is-125rem {
+    width: 1.25rem;
+    height: 1.25rem;
 }
 </style>

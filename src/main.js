@@ -15,7 +15,7 @@ Vue.use(PerfectScrollbar);
 console.log(process.env.VUE_APP_API_URL);
 var axiosInstance = axios.create({ baseURL: process.env.VUE_APP_API_URL });
 Vue.use(VueAxios, axiosInstance);
-
+store.axios = axiosInstance;
 Vue.use(Buefy);
 
 Vue.prototype.$gitcommit = process.env.VUE_APP_GIT_HASH;

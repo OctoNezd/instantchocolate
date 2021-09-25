@@ -3,11 +3,16 @@
         <Loader />
 
         <InstallSideBar />
-        <b-modal v-model="modalShow">
+        <b-modal v-model="packageModalVisible">
             <SoftwareInfo
-                :software="modalSoftware"
-                @toggled="modalShow = false"
-                @tagSelected="tag => (currentTagFilter = tag)"
+                :software="packageModalData"
+                @toggled="$store.commit('clearPackageModal')"
+                @tagSelected="
+                    tag => {
+                        currentTagFilter = [tag];
+                        $store.commit('clearPackageModal');
+                    }
+                "
             />
         </b-modal>
         <section class="hero has-text-centered is-link">
@@ -27,39 +32,88 @@
             </div>
         </section>
         <section class="section">
-            <div class="container">
-                <div v-if="Object.keys(packageList).length > 0">
-                    <TagList
-                        :tags="tags"
-                        :currentTagFilter="currentTagFilter"
-                        @tagSelected="tag => (currentTagFilter = tag)"
-                    />
-                    <SoftwareSearch @showModal="showModal" />
-                    <Presets />
-                    <div class="grid">
-                        <SoftwareItem
-                            v-for="softwareitem in Object.values(
-                                packageListDisplay
-                            ).slice((currentPage - 1) * 40, currentPage * 40)"
-                            :software="softwareitem"
-                            :skeleton="false"
-                            :key="softwareitem.packageName"
-                            @showModal="showModal"
-                        />
+            <div class="container is-fluid">
+                <div class="columns">
+                    <div id="mainContent" class="column is-10">
+                        <div v-if="Object.keys(packageList).length > 0">
+                            <Presets
+                                v-if="
+                                    currentTagFilter.length === 0 &&
+                                        !searchActive
+                                "
+                            />
+                            <div
+                                v-if="
+                                    currentTagFilter.length > 0 || searchActive
+                                "
+                                class="mb-3 is-flex is-flex-direction-row is-flex-wrap"
+                                style="gap: 3px"
+                            >
+                                <b-taglist>
+                                    <b-tag
+                                        v-if="searchActive"
+                                        type="is-chocolate"
+                                        closable
+                                        aria-close-label="Close tag"
+                                        @close="searchActive = false"
+                                        size="is-medium"
+                                    >
+                                        Search: {{ searchQuery }}
+                                    </b-tag>
+                                    <b-tag
+                                        v-for="tag in currentTagFilter"
+                                        :key="tag"
+                                        type="is-chocolate"
+                                        closable
+                                        aria-close-label="Close tag"
+                                        @close="
+                                            currentTagFilter.splice(
+                                                currentTagFilter.indexOf(tag),
+                                                1
+                                            )
+                                        "
+                                        size="is-medium"
+                                    >
+                                        {{ tag }}
+                                    </b-tag>
+                                </b-taglist>
+                            </div>
+                            <PackageList :displayList="packageListDisplay" />
+                        </div>
+                        <div v-else>
+                            <div class="grid">
+                                <SoftwareItem
+                                    v-for="i of Array(40).keys()"
+                                    :key="i"
+                                    :skeleton="true"
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <Pagination
-                        :totalPages="
-                            Math.floor(Object.keys(packageList).length / 40)
-                        "
-                        v-model="currentPage"
-                    />
-                </div>
-                <div v-else>
-                    <div class="grid">
-                        <SoftwareItem
-                            v-for="i of Array(40).keys()"
-                            :key="i"
-                            :skeleton="true"
+                    <div id="sidePanel" class="column">
+                        <SoftwareSearch
+                            @searchComplete="
+                                data => {
+                                    searchActive = true;
+                                    searchResults = data.results;
+                                    searchQuery = data.query;
+                                }
+                            "
+                            @searchCleared="searchActive = false"
+                        />
+                        <TagList
+                            :tags="tags"
+                            :currentTagFilter="currentTagFilter"
+                            @tagSelected="
+                                tag => {
+                                    currentTagFilter.includes(tag)
+                                        ? currentTagFilter.splice(
+                                              currentTagFilter.indexOf(tag),
+                                              1
+                                          )
+                                        : currentTagFilter.push(tag);
+                                }
+                            "
                         />
                     </div>
                 </div>
@@ -110,8 +164,8 @@
 
 <script>
 import Loader from "./components/Loader.vue";
-import Pagination from "./components/Pagination.vue";
 import SoftwareItem from "./components/SoftwareBlock.vue";
+import PackageList from "./components/PackageList.vue";
 import SoftwareInfo from "./components/SoftwareInfo.vue";
 import SoftwareSearch from "./components/SoftwareSearch.vue";
 import TagList from "./components/TagList.vue";
@@ -120,11 +174,12 @@ import InstallSideBar from "./components/InstallSideBar.vue";
 import { packageMixin } from "@/shared.js";
 
 import "./assets/scss/index.scss";
+
 export default {
     name: "App",
     components: {
+        PackageList,
         Loader,
-        Pagination,
         SoftwareItem,
         SoftwareInfo,
         SoftwareSearch,
@@ -134,15 +189,13 @@ export default {
     },
     data: function() {
         return {
+            searchActive: false,
             showInstallModal: false,
-            currentPage: 1,
-            modalShow: false,
-            modalSoftware: {},
-            modalCache: {},
             tags: [],
             tagsAll: [],
-            currentTagFilter: "All",
-            packageListDisplay: {}
+            currentTagFilter: [],
+            searchResults: [],
+            searchQuery: ""
         };
     },
     methods: {
@@ -159,22 +212,6 @@ export default {
 
             this.tagsAll = Object.entries(tags).sort(([, a], [, b]) => b - a);
             this.tags = this.tagsAll.slice(0, 100);
-            this.tags.unshift(["All", Object.values(this.packageList).length]);
-        },
-        showModal(packageName) {
-            this.modalPkg = packageName;
-            if (packageName in this.modalCache) {
-                this.modalSoftware = this.modalCache[this.packageName];
-                this.modalShow = true;
-            } else {
-                this.axios
-                    .get(`package_info/${packageName}.json`)
-                    .then(response => {
-                        this.modalSoftware = response.data;
-                        this.modalCache[this.packageName] = response.data;
-                        this.modalShow = true;
-                    });
-            }
         },
         updateQueue(installQueue) {
             this.installQueue = installQueue;
@@ -189,24 +226,6 @@ export default {
                 title,
                 `/?p=${installQueue.join("+")}`
             );
-        },
-        updateDisplayPackageList() {
-            if (this.currentTagFilter === "All") {
-                this.packageListDisplay = this.packageList;
-            } else {
-                this.packageListDisplay = Object.filter(
-                    this.packageList,
-                    software =>
-                        software.tags.indexOf(this.currentTagFilter) !== -1
-                );
-            }
-            if (!this.tags.find(item => item[0] === this.currentTagFilter)) {
-                this.tags.splice(
-                    1,
-                    0,
-                    this.tagsAll.find(item => item[0] === this.currentTagFilter)
-                );
-            }
         }
     },
     created: function() {
@@ -215,10 +234,6 @@ export default {
     watch: {
         packageList: function() {
             this.updateTagList();
-            this.updateDisplayPackageList();
-        },
-        currentTagFilter: function() {
-            this.updateDisplayPackageList();
         },
         installQueue: function() {
             var title = "InstantChocolate";
@@ -234,6 +249,18 @@ export default {
         }
     },
     computed: {
+        packageListDisplay: function() {
+            const currentPackageList = this.searchActive
+                ? this.searchResults
+                : this.packageList;
+            if (this.currentTagFilter.length === 0) {
+                return Object.values(currentPackageList);
+            } else {
+                return Object.values(currentPackageList).filter(software =>
+                    this.currentTagFilter.every(r => software.tags.includes(r))
+                );
+            }
+        },
         timestamp() {
             return this.$store.state.packageList.timestamp;
         }

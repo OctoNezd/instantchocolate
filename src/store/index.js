@@ -2,11 +2,12 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
-
+var modalCache = {};
 export default new Vuex.Store({
     state: {
         packageList: { timestamp: "0", packages: {} },
-        installQueue: []
+        installQueue: [],
+        packageModalData: undefined
     },
     mutations: {
         updatePackageList(state, newPackageList) {
@@ -28,6 +29,12 @@ export default new Vuex.Store({
         },
         setInstallQueue(state, queue) {
             state.installQueue = queue;
+        },
+        clearPackageModal(state) {
+            state.packageModalData = undefined;
+        },
+        setPackageModal(state, packageData) {
+            state.packageModalData = packageData;
         }
     },
     actions: {
@@ -58,6 +65,18 @@ export default new Vuex.Store({
                 commit("appendToInstallQueue", item);
             } else {
                 commit("removeFromInstallQueue", item);
+            }
+        },
+        setPackageModal({ commit }, packageName) {
+            if (packageName in modalCache) {
+                commit("setPackageModal", this.modalCache[this.packageName]);
+            } else {
+                this.axios
+                    .get(`package_info/${packageName}.json`)
+                    .then(response => {
+                        console.log("downloaded package info for", packageName);
+                        commit("setPackageModal", response.data);
+                    });
             }
         }
     },
