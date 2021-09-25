@@ -10,6 +10,7 @@
                     :software="softwareitem"
                     :skeleton="false"
                     :key="softwareitem.packageName"
+                    :minimalMode="viewType === 'gridlist'"
                 />
             </div>
             <Pagination
@@ -37,7 +38,7 @@ import SoftwareItem from "@/components/SoftwareBlock.vue";
 
 export default {
     components: { Pagination, SoftwareItem },
-    props: { displayList: Array },
+    props: { displayList: Array, viewType: String },
     data() {
         return { currentPage: 1 };
     }

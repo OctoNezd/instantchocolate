@@ -78,7 +78,10 @@
                                     </b-tag>
                                 </b-taglist>
                             </div>
-                            <PackageList :displayList="packageListDisplay" />
+                            <PackageList
+                                :displayList="packageListDisplay"
+                                :viewType="selectedViewType"
+                            />
                         </div>
                         <div v-else>
                             <div class="grid">
@@ -91,6 +94,28 @@
                         </div>
                     </div>
                     <div id="sidePanel" class="column">
+                        <b-field label="View mode" class="mb-1">
+                            <a @click="selectedViewType = 'grid'"
+                                ><b-icon
+                                    size="is-medium"
+                                    icon="view-column"
+                                    :type="
+                                        selectedViewType === 'grid'
+                                            ? 'is-info'
+                                            : ''
+                                    "
+                            /></a>
+                            <a @click="selectedViewType = 'gridlist'"
+                                ><b-icon
+                                    size="is-medium"
+                                    icon="view-list"
+                                    :type="
+                                        selectedViewType === 'gridlist'
+                                            ? 'is-info'
+                                            : ''
+                                    "
+                            /></a>
+                        </b-field>
                         <SoftwareSearch
                             @searchComplete="
                                 data => {
@@ -195,7 +220,8 @@ export default {
             tagsAll: [],
             currentTagFilter: [],
             searchResults: [],
-            searchQuery: ""
+            searchQuery: "",
+            selectedViewType: "grid"
         };
     },
     methods: {

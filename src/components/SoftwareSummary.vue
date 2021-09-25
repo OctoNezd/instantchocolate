@@ -1,6 +1,9 @@
 <template>
-    <div class="softwaresummary">
-        <div class="media">
+    <div
+        class="softwaresummary"
+        :class="{ 'pb-1': !(nodescription || minimalMode) }"
+    >
+        <div class="media" :class="{ 'mb-0': nodescription || minimalMode }">
             <div class="media-left">
                 <figure class="image is-48x48">
                     <b-skeleton v-if="skeleton" width="48" height="48" />
@@ -9,7 +12,14 @@
             </div>
             <div class="media-content">
                 <b-skeleton size="is-large" v-if="skeleton"></b-skeleton>
-                <p class="title is-4" v-else-if="software.displayname != ''">
+                <p
+                    class="title"
+                    :class="{
+                        'is-4': !(nodescription || minimalMode),
+                        'is-6': minimalMode
+                    }"
+                    v-else-if="software.displayname != ''"
+                >
                     {{ software.displayName }}
                 </p>
                 <b-skeleton v-if="skeleton"></b-skeleton>
@@ -47,7 +57,7 @@
                 </a>
             </div>
         </div>
-        <div class="content" v-if="!nodescription">
+        <div class="content" v-if="!(nodescription || minimalMode)">
             <b-skeleton v-if="skeleton" :count="3"></b-skeleton>
             <p v-else-if="software.summary !== ''">
                 {{ software.summary }}
@@ -67,7 +77,8 @@ export default {
         software: Object,
         skeleton: Boolean,
         nodescription: Boolean,
-        showToggleButton: Boolean
+        showToggleButton: Boolean,
+        minimalMode: Boolean
     },
     mixins: [packageMixin],
     computed: {
@@ -101,8 +112,5 @@ export default {
 }
 .softwaresummary .image {
     min-height: 100%;
-}
-.softwaresummary {
-    padding-bottom: 1em;
 }
 </style>

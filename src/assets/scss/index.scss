@@ -92,7 +92,8 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
 .card-footer,
 .card-footer-item,
 .modal-card-foot,
-.modal-card-head {
+.modal-card-head,
+.minModeButtons {
     border-color: var(--border-color) !important;
 }
 .input::placeholder {

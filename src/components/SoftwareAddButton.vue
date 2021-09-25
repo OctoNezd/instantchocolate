@@ -2,9 +2,11 @@
     <a @click="toggle">
         <b-icon
             :icon="state ? 'server-minus' : 'server-plus'"
-            size="is-small"
+            :size="minimalMode ? 'is-medium' : 'is-small'"
         />
-        <span v-if="!state">Add</span><span v-else>Remove</span>
+        <span v-if="!minimalMode">
+            <span v-if="!state">Add</span><span v-else>Remove</span>
+        </span>
     </a>
 </template>
 <script>
@@ -13,7 +15,7 @@ import { packageMixin } from "@/shared.js";
 export default {
     name: "SoftwareAddButton",
     mixins: [packageMixin],
-    props: ["package"],
+    props: { package: String, minimalMode: Boolean },
 
     methods: {
         toggle: function() {
