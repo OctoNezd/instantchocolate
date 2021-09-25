@@ -48,7 +48,9 @@
                         />
                     </div>
                     <Pagination
-                        :totalPages="Math.floor(packageList.length / 40)"
+                        :totalPages="
+                            Math.floor(Object.keys(packageList).length / 40)
+                        "
                         v-model="currentPage"
                     />
                 </div>
@@ -157,7 +159,7 @@ export default {
 
             this.tagsAll = Object.entries(tags).sort(([, a], [, b]) => b - a);
             this.tags = this.tagsAll.slice(0, 100);
-            this.tags.unshift(["All", this.packageList.length]);
+            this.tags.unshift(["All", Object.values(this.packageList).length]);
         },
         showModal(packageName) {
             this.modalPkg = packageName;
