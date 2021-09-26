@@ -6,6 +6,7 @@ import VueAxios from "vue-axios";
 import PerfectScrollbar from "vue2-perfect-scrollbar";
 import "vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css";
 import store from "./store";
+
 Object.filter = (obj, predicate) =>
     Object.keys(obj)
         .filter(key => predicate(obj[key]))

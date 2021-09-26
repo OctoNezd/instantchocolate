@@ -5,7 +5,7 @@
     path {
       fill: dark;
     }
-    @media (prefers-color-scheme: dark) {
+    [data-theme="dark"] {
       path {
         fill: white;
       }

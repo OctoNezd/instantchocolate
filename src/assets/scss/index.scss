@@ -132,18 +132,16 @@ a:hover:not(.button):not(.has-text-danger, .pagination-link) {
     flex-grow: 1;
     text-align: right;
 }
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #{$dark};
-        --text: #{$background};
-        --bglight: #{$grey-dark};
-        --border-color: #{$grey-darker};
-        --textbarely: #{$grey-light};
-        --link: #{$info-light};
-        --hover: #{$grey-lighter};
-        --darkbg: #{$light};
-        --darkbgtext: #{$dark};
-    }
+[data-theme="dark"] {
+    --background: #{$dark};
+    --text: #{$background};
+    --bglight: #{$grey-dark};
+    --border-color: #{$grey-darker};
+    --textbarely: #{$grey-light};
+    --link: #{$info-light};
+    --hover: #{$grey-lighter};
+    --darkbg: #{$light};
+    --darkbgtext: #{$dark};
 }
 body {
     background-color: var(--background);

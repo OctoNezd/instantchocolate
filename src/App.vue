@@ -1,7 +1,19 @@
 <template>
     <div id="app">
         <Loader />
-
+        <a
+            @click="currentTheme = currentTheme === 'light' ? 'dark' : 'light'"
+            class="darkModeToggle"
+        >
+            <b-icon
+                :icon="
+                    currentTheme === 'light'
+                        ? 'white-balance-sunny'
+                        : 'weather-night'
+                "
+                style="color: var(--background) !important; "
+            />
+        </a>
         <InstallSideBar />
         <b-modal v-model="packageModalVisible">
             <SoftwareInfo
@@ -95,22 +107,22 @@
                     </div>
                     <div id="sidePanel" class="column">
                         <b-field label="View mode" class="mb-1">
-                            <a @click="selectedViewType = 'grid'"
-                                ><b-icon
-                                    size="is-medium"
-                                    icon="view-column"
-                                    :type="
-                                        selectedViewType === 'grid'
-                                            ? 'is-info'
-                                            : ''
-                                    "
-                            /></a>
-                            <a @click="selectedViewType = 'gridlist'"
+                            <a @click="selectedViewType = 'compact'"
                                 ><b-icon
                                     size="is-medium"
                                     icon="view-list"
                                     :type="
-                                        selectedViewType === 'gridlist'
+                                        selectedViewType === 'compact'
+                                            ? 'is-info'
+                                            : ''
+                                    "
+                            /></a>
+                            <a @click="selectedViewType = 'grid'"
+                                ><b-icon
+                                    size="is-medium"
+                                    icon="view-grid"
+                                    :type="
+                                        selectedViewType === 'grid'
                                             ? 'is-info'
                                             : ''
                                     "
@@ -197,7 +209,6 @@ import TagList from "./components/TagList.vue";
 import Presets from "./components/Presets.vue";
 import InstallSideBar from "./components/InstallSideBar.vue";
 import { packageMixin } from "@/shared.js";
-
 import "./assets/scss/index.scss";
 
 export default {
@@ -221,10 +232,37 @@ export default {
             currentTagFilter: [],
             searchResults: [],
             searchQuery: "",
-            selectedViewType: "grid"
+            selectedViewType: "compact",
+            currentTheme: "light"
         };
     },
+    created: function() {
+        this.updateColorScheme();
+        window
+            .matchMedia("(prefers-color-scheme: dark)")
+            .addEventListener("change", this.updateColorScheme);
+    },
     methods: {
+        updateColorScheme() {
+            var theme = "light"; //default to light
+
+            //local storage is used to override OS theme settings
+            if (localStorage.getItem("theme")) {
+                if (localStorage.getItem("theme") == "dark") {
+                    theme = "dark";
+                }
+            } else if (
+                window.matchMedia("(prefers-color-scheme: dark)").matches
+            ) {
+                //OS theme setting detected as dark
+                theme = "dark";
+            }
+
+            //dark theme preferred, set document with a `data-theme` attribute
+            document.documentElement.setAttribute("data-theme", theme);
+            this.currentTheme = theme;
+            console.log("theme: " + theme);
+        },
         updateTagList() {
             var tags = Object.values(this.packageList).reduce((a, b) => {
                 for (const tag of b.tags) {
@@ -254,9 +292,6 @@ export default {
             );
         }
     },
-    created: function() {
-        console.log("created", this.packageList);
-    },
     watch: {
         packageList: function() {
             this.updateTagList();
@@ -272,6 +307,10 @@ export default {
                 title,
                 `/?p=${this.installQueue.join("+")}`
             );
+        },
+        currentTheme: function() {
+            localStorage.setItem("theme", this.currentTheme);
+            this.updateColorScheme();
         }
     },
     computed: {
@@ -317,5 +356,11 @@ ul.github > li::after {
 }
 ul.github > li:last-child::after {
     content: none;
+}
+
+.darkModeToggle {
+    right: 10px;
+    top: 10px;
+    position: absolute;
 }
 </style>

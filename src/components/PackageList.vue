@@ -11,7 +11,7 @@
                     :software="softwareitem"
                     :skeleton="false"
                     :key="softwareitem.packageName"
-                    :minimalMode="viewType === 'gridlist'"
+                    :minimalMode="viewType === 'compact'"
                 />
             </div>
             <Pagination
