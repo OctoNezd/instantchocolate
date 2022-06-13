@@ -88,7 +88,6 @@ export default {
         ];
         const sysadmin = [
             "putty.install",
-            "advanced-ip-scanner",
             "filezilla",
             "nmap",
             "wireshark",
